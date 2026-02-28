@@ -1,0 +1,55 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Persue : SteeringBehavior
+{
+    private GameObject _target;
+    public GameObject target
+    {
+        set
+        {
+            _target = value;
+            targetRB = value.GetComponent<Rigidbody>();
+            targetTransform = value.GetComponent<Transform>();
+            unset = false;
+            
+        }
+        get
+        {
+            return _target;
+        }
+    }
+
+    private Transform targetTransform;
+    private Rigidbody targetRB;
+    public Transform xform;
+    public float velocityTweak=1.0f;
+    public float predictionWindow = 5;
+    public Rigidbody rb;
+    private bool unset = true;
+   
+
+    public void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        xform = GetComponent<Transform>();
+    }
+
+    
+    public override Vector3 CalculateSteeringForce(float maxVelocity)
+    {
+        if (!unset){
+            Vector3 predictedPosition = targetTransform.position + (targetRB.velocity * predictionWindow);
+            Vector3 ourPrediction = xform.position + (rb.velocity * predictionWindow);
+            Debug.Log($"{target.name} velocity: {targetRB.velocity} | Kinematic: {targetRB.isKinematic}");
+            Debug.Log(targetRB.gameObject.name + " ID: " + targetRB.GetInstanceID());
+            Vector3 force = (predictedPosition - ourPrediction).normalized * maxVelocity * velocityTweak;
+            return force;
+            
+        } else {
+            return Vector3.zero;
+        }
+        
+    }
+}

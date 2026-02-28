@@ -1,0 +1,14 @@
+{
+  "WorkspaceID": "dv.ws.43be82ba-c1ee-4830-b22a-4873c3ce0e11",
+  "RepoID": "dv.repo.6b911e2c-d893-4f2f-a86b-4a74f588da36",
+  "Path": "D:\\projects\\Unity3D\\SteeringBehaviorsExamples",
+  "AccountID": "Google_111173415850322320844",
+  "BranchID": "dv.branch.1",
+  "BranchName": "main",
+  "CommitID": "dv.commit.6",
+  "Paused": false,
+  "ShouldDownload": false,
+  "RepoName": "SteeringBehaviorsExamples",
+  "ReadOnly": false,
+  "DigestMethod": "sha1"
+}

@@ -1,0 +1,42 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Flee : SteeringBehavior
+{
+    public Rigidbody rb;
+    private bool unset = true;
+    private Vector3 targetPosition;
+
+    public void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
+    public void setFearedPosition(Vector3 targetPosition)
+    {
+        this.targetPosition = targetPosition;
+        this.unset = false;
+    }
+
+    public override Vector3 CalculateSteeringForce(float maxVelocity)
+    {
+        if (!unset)
+        {
+            Vector3 currentPosition = rb.position;
+            Vector3 desiredVelocity=
+                (currentPosition - targetPosition).normalized*maxVelocity;
+            Vector3 result = desiredVelocity - rb.velocity;
+            return result;
+        }
+        else
+        {
+            return Vector3.zero;
+        }
+    }
+
+    public void deactivate()
+    {
+        unset = true;
+    }
+}
