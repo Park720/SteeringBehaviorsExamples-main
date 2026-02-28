@@ -16,6 +16,34 @@ public class PlayerPlanning : MonoBehaviour
         playerEvade = GetComponent<Evade>();
     }
 
+    GameObject FindClosestTarget() //find the closest target to pursue
+    {
+        TagOpponent[] enemy = FindObjectsOfType<TagOpponent>();
+        GameObject nearest = null;
+        float minDist = float.MaxValue;
+
+        foreach (TagOpponent target in enemy)
+        {
+            float dist = Vector3.Distance(transform.position, target.transform.position);
+            if (dist < minDist)
+            {
+                minDist = dist;
+                nearest = target.gameObject;
+            }
+        }
+        return nearest;
+    }
+
+    GameObject FindItTarget() //find the it target to evade from
+    {
+        TagOpponent[] enemy = FindObjectsOfType<TagOpponent>();
+        foreach (TagOpponent target in enemy)
+        {
+            if (target.isIt) return target.gameObject; //if opponent is it return that target to evade from
+        }
+        return FindClosestTarget(); //if no it target found return the closest target to evade from
+    }
+
     void Update()
     {
         if (tagPlayer.isIt)
@@ -42,33 +70,5 @@ public class PlayerPlanning : MonoBehaviour
             }
         }
 
-    }
-
-    GameObject FindClosestTarget() //find the closest target to pursue
-    {
-        TagOpponent[] opponents = FindObjectsOfType<TagOpponent>();
-        GameObject nearest = null;
-        float minDist = float.MaxValue;
-
-        foreach (TagOpponent op in opponents)
-        {
-            float dist = Vector3.Distance(transform.position, op.transform.position);
-            if (dist < minDist)
-            {
-                minDist = dist;
-                nearest = op.gameObject;
-            }
-        }
-        return nearest; 
-    }
-
-    GameObject FindItTarget() //find the it target to evade from
-    {
-        TagOpponent[] opponents = FindObjectsOfType<TagOpponent>();
-        foreach (TagOpponent op in opponents) 
-        {
-            if (op.isIt) return op.gameObject; //if opponent is it return that target to evade from
-        }
-        return FindClosestTarget(); //if no it target found return the closest target to evade from
     }
 }
